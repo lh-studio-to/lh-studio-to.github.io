@@ -29,6 +29,23 @@
     <!-- Author Information -->
     <meta name="author" content="Your Name">
 
+    <!-- Preload category states from localStorage BEFORE rendering -->
+    <script>
+      (function() {
+        const STORAGE_KEY = 'littlelink_category_states';
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          const states = stored ? JSON.parse(stored) : {};
+          const collapsedCategories = Object.keys(states).filter(function(k) {
+            return states[k] === false;
+          });
+          if (collapsedCategories.length > 0) {
+            document.documentElement.setAttribute('data-collapsed', collapsedCategories.join(','));
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
@@ -71,50 +88,52 @@
               <div class="category" data-category="social">
                 <button class="category-header" aria-expanded="true" aria-controls="category-social">
                   <span class="category-title">社交媒体</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-social">
-                  <!-- Default LittleLink -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/littlelink.svg" alt="LittleLink Logo">LittleLink</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-social">
+                    <!-- Default LittleLink -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/littlelink.svg" alt="LittleLink Logo">LittleLink</a>
 
-                  <!-- Facebook -->
-                  <a class="button button-faceb" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/facebook.svg" alt="Facebook Logo">Find us on Facebook</a>
+                    <!-- Facebook -->
+                    <a class="button button-faceb" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/facebook.svg" alt="Facebook Logo">Find us on Facebook</a>
 
-                  <!-- Instagram -->
-                  <a class="button button-instagram" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/instagram.svg" alt="Instagram Logo">Instagram</a>
+                    <!-- Instagram -->
+                    <a class="button button-instagram" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/instagram.svg" alt="Instagram Logo">Instagram</a>
 
-                  <!-- X -->
-                  <a class="button button-x" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a>
+                    <!-- X -->
+                    <a class="button button-x" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a>
 
-                  <!-- Threads -->
-                  <a class="button button-threads" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/threads.svg" alt="Threads Logo">Threads</a>
+                    <!-- Threads -->
+                    <a class="button button-threads" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/threads.svg" alt="Threads Logo">Threads</a>
 
-                  <!-- Bluesky -->
-                  <a class="button button-bluesky" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/bluesky.svg" alt="Bluesky Logo">Bluesky</a>
+                    <!-- Bluesky -->
+                    <a class="button button-bluesky" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/bluesky.svg" alt="Bluesky Logo">Bluesky</a>
 
-                  <!-- Mastodon -->
-                  <a class="button button-mastodon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/mastodon.svg" alt="Mastodon Logo">Mastodon</a>
+                    <!-- Mastodon -->
+                    <a class="button button-mastodon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/mastodon.svg" alt="Mastodon Logo">Mastodon</a>
 
-                  <!-- TikTok -->
-                  <a class="button button-tiktok" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/tiktok.svg" alt="TikTok Logo">TikTok</a>
+                    <!-- TikTok -->
+                    <a class="button button-tiktok" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/tiktok.svg" alt="TikTok Logo">TikTok</a>
 
-                  <!-- YouTube -->
-                  <a class="button button-yt" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/youtube.svg" alt="YouTube Logo">YouTube</a>
+                    <!-- YouTube -->
+                    <a class="button button-yt" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/youtube.svg" alt="YouTube Logo">YouTube</a>
 
-                  <!-- Twitch -->
-                  <a class="button button-twitch" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/twitch.svg" alt="Twitch Logo">Twitch</a>
+                    <!-- Twitch -->
+                    <a class="button button-twitch" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/twitch.svg" alt="Twitch Logo">Twitch</a>
 
-                  <!-- Discord -->
-                  <a class="button button-discord" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/discord.svg" alt="Discord Logo">Discord</a>
+                    <!-- Discord -->
+                    <a class="button button-discord" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/discord.svg" alt="Discord Logo">Discord</a>
 
-                  <!-- Telegram -->
-                  <a class="button button-telegram" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/telegram.svg" alt="Telegram Logo">Telegram</a>
+                    <!-- Telegram -->
+                    <a class="button button-telegram" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/telegram.svg" alt="Telegram Logo">Telegram</a>
 
-                  <!-- Signal -->
-                  <a class="button button-signal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/signal.svg" alt="Signal Logo">Signal</a>
+                    <!-- Signal -->
+                    <a class="button button-signal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/signal.svg" alt="Signal Logo">Signal</a>
 
-                  <!-- WhatsApp -->
-                  <a class="button button-whatsapp" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/whatsapp.svg" alt="WhatsApp Logo">WhatsApp</a>
+                    <!-- WhatsApp -->
+                    <a class="button button-whatsapp" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/whatsapp.svg" alt="WhatsApp Logo">WhatsApp</a>
+                  </div>
                 </div>
               </div>
 
@@ -122,32 +141,34 @@
               <div class="category" data-category="blog">
                 <button class="category-header" aria-expanded="true" aria-controls="category-blog">
                   <span class="category-title">博客与写作</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-blog">
-                  <!-- Medium -->
-                  <a class="button button-medium" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/medium.svg" alt="Medium Logo">Medium</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-blog">
+                    <!-- Medium -->
+                    <a class="button button-medium" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/medium.svg" alt="Medium Logo">Medium</a>
 
-                  <!-- Substack -->
-                  <a class="button button-substack" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/substack.svg" alt="Substack Logo">Substack</a>
+                    <!-- Substack -->
+                    <a class="button button-substack" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/substack.svg" alt="Substack Logo">Substack</a>
 
-                  <!-- Dev.to -->
-                  <a class="button button-dev-to" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/dev-to.svg" alt="Dev.to Logo">Dev.to</a>
+                    <!-- Dev.to -->
+                    <a class="button button-dev-to" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/dev-to.svg" alt="Dev.to Logo">Dev.to</a>
 
-                  <!-- Hashnode -->
-                  <a class="button button-hashnode" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/hashnode.svg" alt="Hashnode Logo">Hashnode</a>
+                    <!-- Hashnode -->
+                    <a class="button button-hashnode" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/hashnode.svg" alt="Hashnode Logo">Hashnode</a>
 
-                  <!-- Letterboxd -->
-                  <a class="button button-letterboxd" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/letterboxd.svg" alt="">Letterboxd</a>
+                    <!-- Letterboxd -->
+                    <a class="button button-letterboxd" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/letterboxd.svg" alt="">Letterboxd</a>
 
-                  <!-- Goodreads -->
-                  <a class="button button-goodreads" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/goodreads.svg" alt="Goodreads Logo">Goodreads</a>
+                    <!-- Goodreads -->
+                    <a class="button button-goodreads" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/goodreads.svg" alt="Goodreads Logo">Goodreads</a>
 
-                  <!-- Notion -->
-                  <a class="button button-notion" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/notion.svg" alt="Notion Logo">Notion</a>
+                    <!-- Notion -->
+                    <a class="button button-notion" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/notion.svg" alt="Notion Logo">Notion</a>
 
-                  <!-- Obsidian -->
-                  <a class="button button-obsidian" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/obsidian.svg" alt="Obsidian Logo">Obsidian</a>
+                    <!-- Obsidian -->
+                    <a class="button button-obsidian" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/obsidian.svg" alt="Obsidian Logo">Obsidian</a>
+                  </div>
                 </div>
               </div>
 
@@ -155,26 +176,28 @@
               <div class="category" data-category="portfolio">
                 <button class="category-header" aria-expanded="true" aria-controls="category-portfolio">
                   <span class="category-title">作品集与设计</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-portfolio">
-                  <!-- Behance -->
-                  <a class="button button-behance" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/behance.svg" alt="Behance Logo">Behance</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-portfolio">
+                    <!-- Behance -->
+                    <a class="button button-behance" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/behance.svg" alt="Behance Logo">Behance</a>
 
-                  <!-- Dribbble -->
-                  <a class="button button-dribbble" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/dribbble.svg" alt="Dribbble Logo">Dribbble</a>
+                    <!-- Dribbble -->
+                    <a class="button button-dribbble" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/dribbble.svg" alt="Dribbble Logo">Dribbble</a>
 
-                  <!-- Figma -->
-                  <a class="button button-figma" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/figma.svg" alt="Figma Logo">Figma Community</a>
+                    <!-- Figma -->
+                    <a class="button button-figma" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/figma.svg" alt="Figma Logo">Figma Community</a>
 
-                  <!-- Unsplash -->
-                  <a class="button button-unsplash" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/unsplash.svg" alt="Unsplash Logo">Unsplash</a>
+                    <!-- Unsplash -->
+                    <a class="button button-unsplash" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/unsplash.svg" alt="Unsplash Logo">Unsplash</a>
 
-                  <!-- Vimeo -->
-                  <a class="button button-vimeo" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/vimeo.svg" alt="Vimeo Logo">Vimeo</a>
+                    <!-- Vimeo -->
+                    <a class="button button-vimeo" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/vimeo.svg" alt="Vimeo Logo">Vimeo</a>
 
-                  <!-- Flickr -->
-                  <a class="button button-flickr" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/flickr.svg" alt="Flickr Logo">Flickr</a>
+                    <!-- Flickr -->
+                    <a class="button button-flickr" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/flickr.svg" alt="Flickr Logo">Flickr</a>
+                  </div>
                 </div>
               </div>
 
@@ -182,32 +205,34 @@
               <div class="category" data-category="development">
                 <button class="category-header" aria-expanded="true" aria-controls="category-development">
                   <span class="category-title">技术开发</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-development">
-                  <!-- GitHub -->
-                  <a class="button button-github" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="GitHub Logo">GitHub</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-development">
+                    <!-- GitHub -->
+                    <a class="button button-github" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="GitHub Logo">GitHub</a>
 
-                  <!-- GitLab -->
-                  <a class="button button-gitlab" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/gitlab.svg" alt="GitLab Logo">GitLab</a>
+                    <!-- GitLab -->
+                    <a class="button button-gitlab" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/gitlab.svg" alt="GitLab Logo">GitLab</a>
 
-                  <!-- Stack Overflow -->
-                  <a class="button button-stack-overflow" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/stack-overflow.svg" alt="Stack Overflow Logo">Stack Overflow</a>
+                    <!-- Stack Overflow -->
+                    <a class="button button-stack-overflow" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/stack-overflow.svg" alt="Stack Overflow Logo">Stack Overflow</a>
 
-                  <!-- Trello -->
-                  <a class="button button-trello" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/trello.svg" alt="Trello Logo">Trello</a>
+                    <!-- Trello -->
+                    <a class="button button-trello" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/trello.svg" alt="Trello Logo">Trello</a>
 
-                  <!-- Cal.com -->
-                  <a class="button button-cal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/cal.svg" alt="Cal.com Logo">Schedule with Cal.com</a>
+                    <!-- Cal.com -->
+                    <a class="button button-cal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/cal.svg" alt="Cal.com Logo">Schedule with Cal.com</a>
 
-                  <!-- Calendly -->
-                  <a class="button button-calendly" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/calendly.svg" alt="Calendly Logo">Schedule with Calendly</a>
+                    <!-- Calendly -->
+                    <a class="button button-calendly" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/calendly.svg" alt="Calendly Logo">Schedule with Calendly</a>
 
-                  <!-- Microsoft -->
-                  <a class="button button-microsoft" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/microsoft.svg" alt="Microsoft Logo">Get it from Microsoft</a>
+                    <!-- Microsoft -->
+                    <a class="button button-microsoft" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/microsoft.svg" alt="Microsoft Logo">Get it from Microsoft</a>
 
-                  <!-- Zoom -->
-                  <a class="button button-zoom" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/zoom.svg" alt="Zoom Logo">Join Zoom Webinar</a>
+                    <!-- Zoom -->
+                    <a class="button button-zoom" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/zoom.svg" alt="Zoom Logo">Join Zoom Webinar</a>
+                  </div>
                 </div>
               </div>
 
@@ -215,32 +240,34 @@
               <div class="category" data-category="music">
                 <button class="category-header" aria-expanded="true" aria-controls="category-music">
                   <span class="category-title">音乐</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-music">
-                  <!-- Spotify -->
-                  <a class="button button-spotify" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/spotify.svg" alt="Spotify Logo">Listen on Spotify</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-music">
+                    <!-- Spotify -->
+                    <a class="button button-spotify" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/spotify.svg" alt="Spotify Logo">Listen on Spotify</a>
 
-                  <!-- Apple Music -->
-                  <a class="button button-apple-music" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/apple-music.svg" alt="Apple Music Logo">Listen on Apple Music</a>
+                    <!-- Apple Music -->
+                    <a class="button button-apple-music" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/apple-music.svg" alt="Apple Music Logo">Listen on Apple Music</a>
 
-                  <!-- SoundCloud -->
-                  <a class="button button-soundcloud" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/soundcloud.svg" alt="SoundCloud Logo">SoundCloud</a>
+                    <!-- SoundCloud -->
+                    <a class="button button-soundcloud" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/soundcloud.svg" alt="SoundCloud Logo">SoundCloud</a>
 
-                  <!-- YouTube Music -->
-                  <a class="button button-yt" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/youtube-music.svg" alt="YouTube Music Logo">Listen on YouTube Music</a>
+                    <!-- YouTube Music -->
+                    <a class="button button-yt" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/youtube-music.svg" alt="YouTube Music Logo">Listen on YouTube Music</a>
 
-                  <!-- Amazon Music -->
-                  <a class="button button-amazon-music" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/amazon-music.svg" alt="Amazon Music Logo">Listen on Amazon Music</a>
+                    <!-- Amazon Music -->
+                    <a class="button button-amazon-music" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/amazon-music.svg" alt="Amazon Music Logo">Listen on Amazon Music</a>
 
-                  <!-- Bandcamp -->
-                  <a class="button button-bandcamp" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/bandcamp.svg" alt="Bandcamp Logo">Bandcamp</a>
+                    <!-- Bandcamp -->
+                    <a class="button button-bandcamp" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/bandcamp.svg" alt="Bandcamp Logo">Bandcamp</a>
 
-                  <!-- Last.fm -->
-                  <a class="button button-last-fm" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/last-fm.svg" alt="">Last.fm</a>
+                    <!-- Last.fm -->
+                    <a class="button button-last-fm" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/last-fm.svg" alt="">Last.fm</a>
 
-                  <!-- Apple Podcasts -->
-                  <a class="button button-apple-podcasts" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/apple-podcasts.svg" alt="Apple Podcasts Logo">Listen on Apple Podcasts</a>
+                    <!-- Apple Podcasts -->
+                    <a class="button button-apple-podcasts" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/apple-podcasts.svg" alt="Apple Podcasts Logo">Listen on Apple Podcasts</a>
+                  </div>
                 </div>
               </div>
 
@@ -248,41 +275,43 @@
               <div class="category" data-category="shop">
                 <button class="category-header" aria-expanded="true" aria-controls="category-shop">
                   <span class="category-title">电商与支持</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-shop">
-                  <!-- Amazon -->
-                  <a class="button button-amazon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/amazon.svg" alt="Amazon Wishlist Logo">Amazon Wishlist</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-shop">
+                    <!-- Amazon -->
+                    <a class="button button-amazon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/amazon.svg" alt="Amazon Wishlist Logo">Amazon Wishlist</a>
 
-                  <!-- Etsy -->
-                  <a class="button button-etsy" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/etsy.svg" alt="Etsy Logo">Shop on Etsy</a>
+                    <!-- Etsy -->
+                    <a class="button button-etsy" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/etsy.svg" alt="Etsy Logo">Shop on Etsy</a>
 
-                  <!-- Shop -->
-                  <a class="button button-shop" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/shop.svg" alt="Shop Logo">Buy with Shop</a>
+                    <!-- Shop -->
+                    <a class="button button-shop" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/shop.svg" alt="Shop Logo">Buy with Shop</a>
 
-                  <!-- Cash App -->
-                  <a class="button button-cash-app" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/cash-app-dollar.svg" alt="Cash App Logo">Cash App</a>
+                    <!-- Cash App -->
+                    <a class="button button-cash-app" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/cash-app-dollar.svg" alt="Cash App Logo">Cash App</a>
 
-                  <!-- Venmo -->
-                  <a class="button button-venmo" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/venmo.svg" alt="Venmo Logo">Venmo</a>
+                    <!-- Venmo -->
+                    <a class="button button-venmo" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/venmo.svg" alt="Venmo Logo">Venmo</a>
 
-                  <!-- PayPal -->
-                  <a class="button button-paypal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/paypal.svg" alt="PayPal Logo">PayPal</a>
+                    <!-- PayPal -->
+                    <a class="button button-paypal" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/paypal.svg" alt="PayPal Logo">PayPal</a>
 
-                  <!-- Ko-fi -->
-                  <a class="button button-ko-fi" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/ko-fi.svg" alt="Ko-fi Logo">Support me on Ko-fi</a>
+                    <!-- Ko-fi -->
+                    <a class="button button-ko-fi" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/ko-fi.svg" alt="Ko-fi Logo">Support me on Ko-fi</a>
 
-                  <!-- Buy Me a Coffee -->
-                  <a class="button button-coffee" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/buy-me-a-coffee.svg" alt="Buy Me A Coffee Logo">Buy Me A Coffee</a>
+                    <!-- Buy Me a Coffee -->
+                    <a class="button button-coffee" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/buy-me-a-coffee.svg" alt="Buy Me A Coffee Logo">Buy Me A Coffee</a>
 
-                  <!-- Patreon -->
-                  <a class="button button-patreon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/patreon.svg" alt="Patreon Logo">Patreon</a>
+                    <!-- Patreon -->
+                    <a class="button button-patreon" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/patreon.svg" alt="Patreon Logo">Patreon</a>
 
-                  <!-- Kickstarter -->
-                  <a class="button button-kickstarter" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/kickstarter.svg" alt="Kickstarter Logo">Kickstarter</a>
+                    <!-- Kickstarter -->
+                    <a class="button button-kickstarter" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/kickstarter.svg" alt="Kickstarter Logo">Kickstarter</a>
 
-                  <!-- GoFundMe -->
-                  <a class="button button-gofundme" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/gofundme.svg" alt="GoFundMe Logo">GoFundMe</a>
+                    <!-- GoFundMe -->
+                    <a class="button button-gofundme" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/gofundme.svg" alt="GoFundMe Logo">GoFundMe</a>
+                  </div>
                 </div>
               </div>
 
@@ -290,26 +319,28 @@
               <div class="category" data-category="other">
                 <button class="category-header" aria-expanded="true" aria-controls="category-other">
                   <span class="category-title">其他链接</span>
-                  <span class="category-icon">▼</span>
+                  <span class="category-icon"></span>
                 </button>
-                <div class="category-content" id="category-other">
-                  <!-- Generic Homepage -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-homepage.svg" alt="Homepage Icon">Visit Homepage</a>
+                <div class="category-content-wrapper">
+                  <div class="category-content" id="category-other">
+                    <!-- Generic Homepage -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-homepage.svg" alt="Homepage Icon">Visit Homepage</a>
 
-                  <!-- Generic Email -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-email.svg" alt="Email Icon">Email Us</a>
+                    <!-- Generic Email -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-email.svg" alt="Email Icon">Email Us</a>
 
-                  <!-- Generic Phone -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-phone.svg" alt="Phone Icon">Call Us</a>
+                    <!-- Generic Phone -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-phone.svg" alt="Phone Icon">Call Us</a>
 
-                  <!-- Generic Map -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-map.svg" alt="Map Icon">Get Directions</a>
+                    <!-- Generic Map -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-map.svg" alt="Map Icon">Get Directions</a>
 
-                  <!-- Generic Code -->
-                  <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-code.svg" alt="Code Icon">View the code</a>
+                    <!-- Generic Code -->
+                    <a class="button button-default" href="#" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/generic-code.svg" alt="Code Icon">View the code</a>
 
-                  <!-- LittleLink Extended -->
-                  <a class="button button-default" href="https://github.com/sethcottle/littlelink-extended" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/littlelink.svg" alt="LittleLink Logo">LittleLink Extended</a>
+                    <!-- LittleLink Extended -->
+                    <a class="button button-default" href="https://github.com/sethcottle/littlelink-extended" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/littlelink.svg" alt="LittleLink Logo">LittleLink Extended</a>
+                  </div>
                 </div>
               </div>
 
@@ -361,11 +392,29 @@
         return states.hasOwnProperty(category) ? states[category] : null;
       }
 
+      function updateHeight(contentWrapper) {
+        const content = contentWrapper.querySelector('.category-content');
+        if (!content) return;
+
+        const isCollapsed = contentWrapper.classList.contains('collapsed-init') ||
+                           contentWrapper.getAttribute('data-collapsed') === 'true';
+
+        if (isCollapsed) {
+          contentWrapper.style.maxHeight = '0px';
+          contentWrapper.setAttribute('data-collapsed', 'true');
+        } else {
+          const contentHeight = content.scrollHeight;
+          contentWrapper.style.maxHeight = contentHeight + 'px';
+          contentWrapper.setAttribute('data-collapsed', 'false');
+        }
+      }
+
       function toggleCategory(categoryEl) {
         const categoryName = categoryEl.dataset.category;
         const header = categoryEl.querySelector('.category-header');
-        const content = categoryEl.querySelector('.category-content');
+        const contentWrapper = categoryEl.querySelector('.category-content-wrapper');
         const icon = categoryEl.querySelector('.category-icon');
+        const content = contentWrapper.querySelector('.category-content');
 
         const isCurrentlyExpanded = header.getAttribute('aria-expanded') === 'true';
         const willBeExpanded = !isCurrentlyExpanded;
@@ -373,11 +422,14 @@
         header.setAttribute('aria-expanded', willBeExpanded);
 
         if (willBeExpanded) {
-          content.classList.remove('collapsed');
+          const contentHeight = content.scrollHeight;
+          contentWrapper.style.maxHeight = contentHeight + 'px';
+          contentWrapper.setAttribute('data-collapsed', 'false');
           icon.textContent = ICON_EXPANDED;
           setCategoryState(categoryName, null);
         } else {
-          content.classList.add('collapsed');
+          contentWrapper.style.maxHeight = '0px';
+          contentWrapper.setAttribute('data-collapsed', 'true');
           icon.textContent = ICON_COLLAPSED;
           setCategoryState(categoryName, false);
         }
@@ -385,24 +437,35 @@
 
       function initCategories() {
         const categories = document.querySelectorAll('.category');
+        const collapsedAttr = document.documentElement.getAttribute('data-collapsed');
+        const preCollapsed = collapsedAttr ? collapsedAttr.split(',') : [];
 
         categories.forEach(function(categoryEl) {
           const categoryName = categoryEl.dataset.category;
           const header = categoryEl.querySelector('.category-header');
-          const content = categoryEl.querySelector('.category-content');
+          const contentWrapper = categoryEl.querySelector('.category-content-wrapper');
           const icon = categoryEl.querySelector('.category-icon');
 
-          const savedState = getCategoryState(categoryName);
+          const shouldBeCollapsed = preCollapsed.indexOf(categoryName) !== -1;
 
-          if (savedState === false) {
+          if (shouldBeCollapsed) {
             header.setAttribute('aria-expanded', 'false');
-            content.classList.add('collapsed');
+            contentWrapper.classList.add('collapsed-init');
+            contentWrapper.setAttribute('data-collapsed', 'true');
+            contentWrapper.style.maxHeight = '0px';
             icon.textContent = ICON_COLLAPSED;
           } else {
             header.setAttribute('aria-expanded', 'true');
-            content.classList.remove('collapsed');
+            contentWrapper.setAttribute('data-collapsed', 'false');
             icon.textContent = ICON_EXPANDED;
           }
+
+          requestAnimationFrame(function() {
+            contentWrapper.classList.add('transition-enabled');
+            if (!shouldBeCollapsed) {
+              updateHeight(contentWrapper);
+            }
+          });
 
           header.addEventListener('click', function(e) {
             e.preventDefault();
@@ -413,6 +476,18 @@
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               toggleCategory(categoryEl);
+            }
+          });
+        });
+
+        window.addEventListener('resize', function() {
+          document.querySelectorAll('.category-content-wrapper').forEach(function(wrapper) {
+            const isCollapsed = wrapper.getAttribute('data-collapsed') === 'true';
+            if (!isCollapsed) {
+              const content = wrapper.querySelector('.category-content');
+              if (content) {
+                wrapper.style.maxHeight = content.scrollHeight + 'px';
+              }
             }
           });
         });

@@ -403,7 +403,7 @@ ul li {
 	border: none;
 	border-radius: 0.5rem;
 	cursor: pointer;
-	transition: background-color 0.2s ease, transform 0.2s ease;
+	transition: background-color 0.2s ease;
 	font-family: "Open Sans", system-ui;
 	font-size: var(--scale-1);
 	font-weight: 700;
@@ -429,25 +429,29 @@ ul li {
 
 .category-icon {
 	font-size: 0.75rem;
-	opacity: 0.7;
-	transition: transform 0.3s ease;
+	opacity: 0.85;
+	transition: transform 0.3s ease, opacity 0.2s ease;
 	min-width: 1.5rem;
 	text-align: right;
+	color: inherit;
+}
+
+.category-content-wrapper {
+	overflow: hidden;
+	max-height: none;
+}
+
+.category-content-wrapper.collapsed-init,
+.category-content-wrapper[data-collapsed="true"] {
+	max-height: 0;
+}
+
+.category-content-wrapper.transition-enabled {
+	transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .category-content {
-	max-height: 10000px;
 	opacity: 1;
-	overflow: hidden;
-	transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
-	margin-bottom: 0;
-}
-
-.category-content.collapsed {
-	max-height: 0;
-	opacity: 0;
-	margin-bottom: 0;
-	pointer-events: none;
 }
 
 /* Dark theme adjustments */
@@ -455,9 +459,17 @@ ul li {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
+:root.theme-dark .category-icon {
+	opacity: 0.9;
+}
+
 @media (prefers-color-scheme: dark) {
 	:root.theme-auto .category-header:hover {
 		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	:root.theme-auto .category-icon {
+		opacity: 0.9;
 	}
 }
 
