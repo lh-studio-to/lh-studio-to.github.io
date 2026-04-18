@@ -380,3 +380,94 @@ ul li {
 	src:url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.eot');
 	src:url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.eot?#iefix') format('embedded-opentype'),url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.woff2') format('woff2'),url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.woff') format('woff'),url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.ttf') format('truetype'),url('../fonts/open-sans-v34-vietnamese_latin-ext_latin_hebrew_greek-ext_greek_cyrillic-ext_cyrillic-800.svg#OpenSans') format('svg');
 }
+
+/* Category Collapsible Styles
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.category {
+	margin-bottom: var(--spacing-xl);
+}
+
+.category:last-child {
+	margin-bottom: 0;
+}
+
+.category-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 18.75rem;
+	margin: 0 auto var(--spacing-s) auto;
+	padding: var(--spacing-xs) var(--spacing-s);
+	background: transparent;
+	border: none;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+	font-family: "Open Sans", system-ui;
+	font-size: var(--scale-1);
+	font-weight: 700;
+	line-height: 1.6;
+	text-align: center;
+	color: inherit;
+}
+
+.category-header:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.category-header:focus-visible {
+	outline: 2px solid #4899F7;
+	outline-offset: 2px;
+}
+
+.category-title {
+	flex: 1;
+	text-align: center;
+	padding-left: 1.5rem;
+}
+
+.category-icon {
+	font-size: 0.75rem;
+	opacity: 0.7;
+	transition: transform 0.3s ease;
+	min-width: 1.5rem;
+	text-align: right;
+}
+
+.category-content {
+	max-height: 10000px;
+	opacity: 1;
+	overflow: hidden;
+	transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+	margin-bottom: 0;
+}
+
+.category-content.collapsed {
+	max-height: 0;
+	opacity: 0;
+	margin-bottom: 0;
+	pointer-events: none;
+}
+
+/* Dark theme adjustments */
+:root.theme-dark .category-header:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root.theme-auto .category-header:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+}
+
+/* Responsive adjustments for categories */
+@media (max-width: 34.375rem) {
+	.category-header {
+		font-size: var(--scale-0);
+	}
+
+	.category {
+		margin-bottom: var(--spacing-l);
+	}
+}
