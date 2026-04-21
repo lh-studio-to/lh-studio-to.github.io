@@ -155,98 +155,122 @@ body {
 	bottom:1.5rem;
 	right:1.5rem;
 	display:flex;
-	background-color:rgba(255, 255, 255, 0.85);
-	backdrop-filter:blur(10px);
+	align-items:center;
+	background-color:rgba(255, 255, 255, 0.7);
+	backdrop-filter:blur(8px);
+	-webkit-backdrop-filter:blur(8px);
 	border-radius:9999px;
-	padding:0.25rem;
-	gap:0;
-	box-shadow:0 4px 20px rgba(0, 0, 0, 0.15);
+	padding:3px;
+	gap:1px;
+	box-shadow:0 2px 12px rgba(0, 0, 0, 0.1);
 	z-index:1000;
-	transition:all 0.3s ease;
 }
 
 .theme-button {
 	display:inline-flex;
 	align-items:center;
 	justify-content:center;
-	min-width:3.5rem;
-	padding:0.5rem 1rem;
-	font-size:0.875rem;
-	font-weight:600;
+	padding:6px 12px;
+	font-size:0.85rem;
+	font-weight:500;
 	background-color:transparent;
-	color:var(--theme-button-text, #1a1a1a);
+	color:var(--theme-button-text, #333333);
 	border:none;
 	border-radius:9999px;
 	cursor:pointer;
-	transition:all 0.3s ease;
+	transition:background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+	position:relative;
+}
+
+.theme-button:not(:last-child)::after {
+	content:'';
+	position:absolute;
+	right:-1px;
+	top:50%;
+	transform:translateY(-50%);
+	height:16px;
+	width:1px;
+	background-color:rgba(0, 0, 0, 0.1);
 }
 
 .theme-button:hover {
-	background-color:rgba(0, 0, 0, 0.05);
+	background-color:rgba(0, 0, 0, 0.08);
 }
 
 .theme-button.active {
-	background-color:var(--theme-button-active-bg, #2457F5);
-	color:var(--theme-button-active-text, #ffffff);
-	box-shadow:0 2px 8px rgba(36, 87, 245, 0.3);
+	background-color:var(--theme-button-active-bg, rgba(0, 0, 0, 0.12));
+	color:var(--theme-button-active-text, #1a1a1a);
+	box-shadow:inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark theme for theme buttons */
 :root.theme-dark .theme-toggle {
-	background-color:rgba(30, 30, 30, 0.85);
+	background-color:rgba(20, 20, 20, 0.7);
 }
 
 :root.theme-dark .theme-button {
-	--theme-button-text:#ffffff;
-	--theme-button-active-bg:#4899F7;
+	--theme-button-text:#e0e0e0;
+	--theme-button-active-bg:rgba(255, 255, 255, 0.12);
 	--theme-button-active-text:#ffffff;
 }
 
+:root.theme-dark .theme-button:not(:last-child)::after {
+	background-color:rgba(255, 255, 255, 0.15);
+}
+
 :root.theme-dark .theme-button:hover {
-	background-color:rgba(255, 255, 255, 0.1);
+	background-color:rgba(255, 255, 255, 0.08);
 }
 
 :root.theme-dark .theme-button.active {
-	box-shadow:0 2px 8px rgba(72, 153, 247, 0.4);
+	box-shadow:inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Auto theme (light) for theme buttons */
 :root.theme-auto .theme-toggle {
-	background-color:rgba(255, 255, 255, 0.85);
+	background-color:rgba(255, 255, 255, 0.7);
 }
 
 :root.theme-auto .theme-button {
-	--theme-button-text:#1a1a1a;
-	--theme-button-active-bg:#2457F5;
-	--theme-button-active-text:#ffffff;
+	--theme-button-text:#333333;
+	--theme-button-active-bg:rgba(0, 0, 0, 0.12);
+	--theme-button-active-text:#1a1a1a;
+}
+
+:root.theme-auto .theme-button:not(:last-child)::after {
+	background-color:rgba(0, 0, 0, 0.1);
 }
 
 :root.theme-auto .theme-button:hover {
-	background-color:rgba(0, 0, 0, 0.05);
+	background-color:rgba(0, 0, 0, 0.08);
 }
 
 :root.theme-auto .theme-button.active {
-	box-shadow:0 2px 8px rgba(36, 87, 245, 0.3);
+	box-shadow:inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 /* Auto theme (dark) for theme buttons */
 @media (prefers-color-scheme:dark) {
 	:root.theme-auto .theme-toggle {
-		background-color:rgba(30, 30, 30, 0.85);
+		background-color:rgba(20, 20, 20, 0.7);
 	}
 
 	:root.theme-auto .theme-button {
-		--theme-button-text:#ffffff;
-		--theme-button-active-bg:#4899F7;
+		--theme-button-text:#e0e0e0;
+		--theme-button-active-bg:rgba(255, 255, 255, 0.12);
 		--theme-button-active-text:#ffffff;
 	}
 
+	:root.theme-auto .theme-button:not(:last-child)::after {
+		background-color:rgba(255, 255, 255, 0.15);
+	}
+
 	:root.theme-auto .theme-button:hover {
-		background-color:rgba(255, 255, 255, 0.1);
+		background-color:rgba(255, 255, 255, 0.08);
 	}
 
 	:root.theme-auto .theme-button.active {
-		box-shadow:0 2px 8px rgba(72, 153, 247, 0.4);
+		box-shadow:inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 	}
 }
 
