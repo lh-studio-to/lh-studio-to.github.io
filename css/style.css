@@ -149,6 +149,82 @@ body {
 	text-align:center;
 }
 
+/* Theme Toggle */
+.theme-toggle {
+	display:flex;
+	justify-content:center;
+	gap:0.75rem;
+	margin:var(--spacing-xl) 0;
+}
+
+.theme-button {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	min-width:5rem;
+	padding:0.5rem 1rem;
+	font-size:var(--scale-0);
+	font-weight:600;
+	background-color:var(--theme-button-bg, #f0f0f0);
+	color:var(--theme-button-text, #1a1a1a);
+	border:none;
+	border-radius:0.5rem;
+	cursor:pointer;
+	transition:all 0.3s ease;
+}
+
+.theme-button:hover {
+	background-color:var(--theme-button-hover-bg, #e0e0e0);
+	transform:translateY(-2px);
+}
+
+.theme-button.active {
+	background-color:var(--theme-button-active-bg, #2457F5);
+	color:var(--theme-button-active-text, #ffffff);
+}
+
+/* Dark theme for theme buttons */
+:root.theme-dark .theme-button {
+	--theme-button-bg:#2a2a2a;
+	--theme-button-text:#ffffff;
+	--theme-button-hover-bg:#3a3a3a;
+	--theme-button-active-bg:#4899F7;
+	--theme-button-active-text:#ffffff;
+}
+
+/* Auto theme (light) for theme buttons */
+:root.theme-auto .theme-button {
+	--theme-button-bg:#f0f0f0;
+	--theme-button-text:#1a1a1a;
+	--theme-button-hover-bg:#e0e0e0;
+	--theme-button-active-bg:#2457F5;
+	--theme-button-active-text:#ffffff;
+}
+
+/* Auto theme (dark) for theme buttons */
+@media (prefers-color-scheme:dark) {
+	:root.theme-auto .theme-button {
+		--theme-button-bg:#2a2a2a;
+		--theme-button-text:#ffffff;
+		--theme-button-hover-bg:#3a3a3a;
+		--theme-button-active-bg:#4899F7;
+		--theme-button-active-text:#ffffff;
+	}
+}
+
+/* Add transition for smooth theme switching */
+body {
+	transition:background-color 0.3s ease, color 0.3s ease;
+}
+
+a:not(.button) {
+	transition:color 0.3s ease;
+}
+
+.button, button {
+	transition:all 0.3s ease;
+}
+
 /* Footer */
 footer {
 	margin:var(--spacing-xxl) 0;            /* 4rem (64px) top and bottom */

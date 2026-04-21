@@ -399,6 +399,13 @@
 
       </div>
 
+      <!-- Theme Toggle -->
+      <div class="theme-toggle">
+        <button class="theme-button" data-theme="auto" title="Auto (follow system)">Auto</button>
+        <button class="theme-button" data-theme="light" title="Light theme">Light</button>
+        <button class="theme-button" data-theme="dark" title="Dark theme">Dark</button>
+      </div>
+
       <!-- Feel free to add your own footer information, including updating `privacy.html` to reflect how your LittleLink fork is set up -->
       <footer>
         <a href="privacy.html">Privacy Policy</a> | Build your own by forking <a href="https://littlelink.io" target="_blank" rel="noopener">LittleLink</a>
@@ -407,6 +414,57 @@
     </div>
   </div>
 
-</body>
+    <script>
+      // Theme Toggle Functionality
+      (function() {
+        const html = document.documentElement;
+        const themeButtons = document.querySelectorAll('.theme-button');
+        
+        // Get saved theme from localStorage or use default
+        function getSavedTheme() {
+          return localStorage.getItem('littlelink-theme') || 'auto';
+        }
+        
+        // Apply theme to the page
+        function applyTheme(theme) {
+          // Remove all theme classes
+          html.classList.remove('theme-auto', 'theme-light', 'theme-dark');
+          
+          // Add the selected theme class
+          html.classList.add(`theme-${theme}`);
+          
+          // Save to localStorage
+          localStorage.setItem('littlelink-theme', theme);
+          
+          // Update button active states
+          updateButtonStates(theme);
+        }
+        
+        // Update which button is marked as active
+        function updateButtonStates(theme) {
+          themeButtons.forEach(button => {
+            const buttonTheme = button.getAttribute('data-theme');
+            if (buttonTheme === theme) {
+              button.classList.add('active');
+            } else {
+              button.classList.remove('active');
+            }
+          });
+        }
+        
+        // Add click event listeners to theme buttons
+        themeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            applyTheme(theme);
+          });
+        });
+        
+        // Apply saved theme on page load
+        const savedTheme = getSavedTheme();
+        applyTheme(savedTheme);
+      })();
+    </script>
+  </body>
 
 </html>
