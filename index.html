@@ -428,6 +428,7 @@
     (function() {
       const STORAGE_KEY = 'littlelink_stats';
       let isSorted = false;
+      let originalOrderMap = new Map();
 
       function getStats() {
         const stats = localStorage.getItem(STORAGE_KEY);
@@ -454,6 +455,7 @@
 
       function resetStats() {
         localStorage.removeItem(STORAGE_KEY);
+        originalOrderMap.clear();
         updateStatsDisplay();
       }
 
@@ -509,51 +511,124 @@
         }
       }
 
+      function getOrCreateStatsItem(linkId, data, index) {
+        const statsList = document.getElementById('stats-list');
+        let item = statsList.querySelector('[data-link-id="' + escapeSelector(linkId) + '"]');
+        
+        if (!item) {
+          item = document.createElement('div');
+          item.className = 'stats-item';
+          item.dataset.linkId = linkId;
+          item.style.setProperty('--item-order', index);
+          originalOrderMap.set(linkId, index);
+          
+          item.innerHTML = `
+            <div class="stats-item-info">
+              <span class="stats-rank" style="display:none;"></span>
+              <span class="stats-name"></span>
+            </div>
+            <div class="stats-item-meta">
+              <span class="stats-clicks"></span>
+              <span class="stats-time"></span>
+            </div>
+          `;
+          statsList.appendChild(item);
+        }
+        
+        return item;
+      }
+
+      function escapeSelector(id) {
+        return id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, '\\$&');
+      }
+
+      function updateStatsItem(item, data, rank) {
+        const nameEl = item.querySelector('.stats-name');
+        const clicksEl = item.querySelector('.stats-clicks');
+        const timeEl = item.querySelector('.stats-time');
+        const rankEl = item.querySelector('.stats-rank');
+        
+        if (nameEl) nameEl.textContent = data.name;
+        if (clicksEl) clicksEl.textContent = data.clicks + ' 次点击';
+        
+        if (timeEl) {
+          if (data.lastClicked) {
+            timeEl.textContent = formatTime(data.lastClicked);
+            timeEl.style.display = '';
+          } else {
+            timeEl.style.display = 'none';
+          }
+        }
+        
+        if (rankEl) {
+          if (rank !== null) {
+            rankEl.textContent = '#' + rank;
+            rankEl.style.display = '';
+          } else {
+            rankEl.style.display = 'none';
+          }
+        }
+      }
+
       function updateStatsDisplay() {
         const statsList = document.getElementById('stats-list');
         const stats = getStats();
         const statsArray = Object.entries(stats);
+        
+        const emptyMessage = statsList.querySelector('.stats-empty');
+        if (emptyMessage) {
+          emptyMessage.remove();
+        }
         
         if (statsArray.length === 0) {
           statsList.innerHTML = '<p class="stats-empty">暂无点击记录</p>';
           return;
         }
 
-        let displayArray = statsArray.map(([id, data]) => ({
+        const existingItems = statsList.querySelectorAll('.stats-item');
+        const existingIds = new Set();
+        existingItems.forEach(item => {
+          existingIds.add(item.dataset.linkId);
+        });
+
+        const currentIds = new Set(statsArray.map(([id]) => id));
+        existingItems.forEach(item => {
+          if (!currentIds.has(item.dataset.linkId)) {
+            item.remove();
+            originalOrderMap.delete(item.dataset.linkId);
+          }
+        });
+
+        let displayArray = statsArray.map(([id, data], originalIndex) => ({
           id,
           name: data.name,
           clicks: data.clicks,
-          lastClicked: data.lastClicked
+          lastClicked: data.lastClicked,
+          originalIndex: originalOrderMap.has(id) ? originalOrderMap.get(id) : originalIndex
         }));
 
         if (isSorted) {
-          displayArray.sort((a, b) => b.clicks - a.clicks);
+          displayArray.sort((a, b) => {
+            if (b.clicks !== a.clicks) {
+              return b.clicks - a.clicks;
+            }
+            return a.originalIndex - b.originalIndex;
+          });
+        } else {
+          displayArray.sort((a, b) => a.originalIndex - b.originalIndex);
         }
 
-        let html = '';
-        displayArray.forEach((item, index) => {
-          const rank = isSorted ? index + 1 : null;
-          html += `
-            <div class="stats-item">
-              <div class="stats-item-info">
-                ${rank ? `<span class="stats-rank">#${rank}</span>` : ''}
-                <span class="stats-name">${escapeHtml(item.name)}</span>
-              </div>
-              <div class="stats-item-meta">
-                <span class="stats-clicks">${item.clicks} 次点击</span>
-                ${item.lastClicked ? `<span class="stats-time">${formatTime(item.lastClicked)}</span>` : ''}
-              </div>
-            </div>
-          `;
+        displayArray.forEach((item, displayIndex) => {
+          const statsItem = getOrCreateStatsItem(item.id, item, item.originalIndex);
+          const rank = isSorted ? displayIndex + 1 : null;
+          updateStatsItem(statsItem, item, rank);
+          
+          if (isSorted) {
+            statsItem.style.setProperty('--item-order', displayIndex);
+          } else {
+            statsItem.style.setProperty('--item-order', item.originalIndex);
+          }
         });
-
-        statsList.innerHTML = html;
-      }
-
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
       }
 
       function formatTime(isoString) {

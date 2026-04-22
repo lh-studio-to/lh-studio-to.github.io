@@ -543,11 +543,14 @@ ul li {
 	flex:1;
 	overflow-y:auto;
 	padding:var(--spacing-s) 0;
+	display:grid;
+	grid-auto-flow:row;
 }
 
 .stats-item {
 	padding:var(--spacing-s) var(--spacing-m);
 	border-bottom:1px solid #f0f0f0;
+	order:var(--item-order, 0);
 }
 
 .stats-item:last-child {
