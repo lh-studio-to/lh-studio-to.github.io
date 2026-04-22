@@ -401,11 +401,211 @@
 
       <!-- Feel free to add your own footer information, including updating `privacy.html` to reflect how your LittleLink fork is set up -->
       <footer>
-        <a href="privacy.html">Privacy Policy</a> | Build your own by forking <a href="https://littlelink.io" target="_blank" rel="noopener">LittleLink</a>
+        <a href="privacy.html">Privacy Policy</a> | <button id="stats-button" class="stats-button">统计面板</button> | Build your own by forking <a href="https://littlelink.io" target="_blank" rel="noopener">LittleLink</a>
       </footer>
+
+      <!-- Stats Sidebar/Modal -->
+      <div id="stats-overlay" class="stats-overlay"></div>
+      <div id="stats-panel" class="stats-panel">
+        <div class="stats-header">
+          <h2>链接点击统计</h2>
+          <button id="stats-close" class="stats-close">&times;</button>
+        </div>
+        <div class="stats-actions">
+          <button id="stats-sort" class="stats-action-btn">按点击量排序</button>
+          <button id="stats-reset" class="stats-action-btn stats-action-btn--danger">重置统计</button>
+          <button id="stats-export" class="stats-action-btn stats-action-btn--primary">导出 JSON</button>
+        </div>
+        <div id="stats-list" class="stats-list">
+          <p class="stats-empty">暂无点击记录</p>
+        </div>
+      </div>
 
     </div>
   </div>
+
+  <script>
+    (function() {
+      const STORAGE_KEY = 'littlelink_stats';
+      let isSorted = false;
+
+      function getStats() {
+        const stats = localStorage.getItem(STORAGE_KEY);
+        return stats ? JSON.parse(stats) : {};
+      }
+
+      function saveStats(stats) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+      }
+
+      function recordClick(linkId, linkName) {
+        const stats = getStats();
+        if (!stats[linkId]) {
+          stats[linkId] = {
+            name: linkName,
+            clicks: 0,
+            lastClicked: null
+          };
+        }
+        stats[linkId].clicks += 1;
+        stats[linkId].lastClicked = new Date().toISOString();
+        saveStats(stats);
+      }
+
+      function resetStats() {
+        localStorage.removeItem(STORAGE_KEY);
+        updateStatsDisplay();
+      }
+
+      function exportStats() {
+        const stats = getStats();
+        const dataStr = JSON.stringify(stats, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'littlelink_stats_' + new Date().toISOString().slice(0, 10) + '.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+      function getLinkName(button) {
+        const icon = button.querySelector('.icon');
+        let name = button.textContent.trim();
+        if (icon && icon.alt) {
+          name = name.replace(icon.alt, '').trim();
+        }
+        return name || '未命名链接';
+      }
+
+      function initButtonTracking() {
+        const buttons = document.querySelectorAll('.button-stack .button');
+        buttons.forEach((button, index) => {
+          const linkId = 'link_' + index + '_' + getLinkName(button).replace(/\s+/g, '_').substring(0, 20);
+          button.dataset.linkId = linkId;
+          
+          button.addEventListener('click', function(e) {
+            const name = getLinkName(button);
+            recordClick(linkId, name);
+          });
+        });
+      }
+
+      function togglePanel(show) {
+        const panel = document.getElementById('stats-panel');
+        const overlay = document.getElementById('stats-overlay');
+        
+        if (show) {
+          panel.classList.add('stats-panel--open');
+          overlay.classList.add('stats-overlay--open');
+          document.body.style.overflow = 'hidden';
+          updateStatsDisplay();
+        } else {
+          panel.classList.remove('stats-panel--open');
+          overlay.classList.remove('stats-overlay--open');
+          document.body.style.overflow = '';
+        }
+      }
+
+      function updateStatsDisplay() {
+        const statsList = document.getElementById('stats-list');
+        const stats = getStats();
+        const statsArray = Object.entries(stats);
+        
+        if (statsArray.length === 0) {
+          statsList.innerHTML = '<p class="stats-empty">暂无点击记录</p>';
+          return;
+        }
+
+        let displayArray = statsArray.map(([id, data]) => ({
+          id,
+          name: data.name,
+          clicks: data.clicks,
+          lastClicked: data.lastClicked
+        }));
+
+        if (isSorted) {
+          displayArray.sort((a, b) => b.clicks - a.clicks);
+        }
+
+        let html = '';
+        displayArray.forEach((item, index) => {
+          const rank = isSorted ? index + 1 : null;
+          html += `
+            <div class="stats-item">
+              <div class="stats-item-info">
+                ${rank ? `<span class="stats-rank">#${rank}</span>` : ''}
+                <span class="stats-name">${escapeHtml(item.name)}</span>
+              </div>
+              <div class="stats-item-meta">
+                <span class="stats-clicks">${item.clicks} 次点击</span>
+                ${item.lastClicked ? `<span class="stats-time">${formatTime(item.lastClicked)}</span>` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        statsList.innerHTML = html;
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function formatTime(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleString('zh-CN', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      function initEventListeners() {
+        const statsButton = document.getElementById('stats-button');
+        const statsClose = document.getElementById('stats-close');
+        const statsOverlay = document.getElementById('stats-overlay');
+        const statsSort = document.getElementById('stats-sort');
+        const statsReset = document.getElementById('stats-reset');
+        const statsExport = document.getElementById('stats-export');
+
+        statsButton.addEventListener('click', () => togglePanel(true));
+        statsClose.addEventListener('click', () => togglePanel(false));
+        statsOverlay.addEventListener('click', () => togglePanel(false));
+
+        statsSort.addEventListener('click', () => {
+          isSorted = !isSorted;
+          statsSort.textContent = isSorted ? '恢复原顺序' : '按点击量排序';
+          updateStatsDisplay();
+        });
+
+        statsReset.addEventListener('click', () => {
+          if (confirm('确定要重置所有统计数据吗？此操作不可撤销。')) {
+            resetStats();
+          }
+        });
+
+        statsExport.addEventListener('click', exportStats);
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            togglePanel(false);
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        initButtonTracking();
+        initEventListeners();
+      });
+    })();
+  </script>
 
 </body>
 
