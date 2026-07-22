@@ -37,20 +37,6 @@
     <!-- Brand Styles -->
     <link rel="stylesheet" href="css/brands.css">
 
-  <!-- Visitor Counter Style -->
-  <style>
-    .visitor-counter {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-size: 14px;
-      color: #fff;
-    }
-  </style>
-
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/negative-logo.png">
@@ -59,11 +45,6 @@
 
 <body>
 
-  <!-- Visitor Counter -->
-  <div class="visitor-counter">
-    Visitors: <span id="visitor-count">...</span>
-  </div>
-
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
@@ -71,7 +52,7 @@
       <div class="column" style="margin-top: 10%">
 
         <!-- Your Image Here -->
-        <img src="images/negative-logo.jpeg" class="avatar" alt="A picture of me with a fat Newport 100 in my mouth">
+        <img src="images/negative-profile.jpg" class="avatar" alt="New avatar">
 
         <!-- Title -->
         <h1 role="heading">Negative</h1>
@@ -97,6 +78,9 @@
         <!-- SoundCloud -->
         <a class="button button-soundcloud2" href="https://soundcloud.com/mugen" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/soundcloud.svg" alt="SoundCloud Logo">SoundCloud</a><br>
 
+        <!-- SoundCloud -->
+        <a class="button button-soundcloud3" href="https://soundcloud.com/djtrailerpark" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/soundcloud.svg" alt="SoundCloud Logo">SoundCloud</a><br>
+
         <!-- Steam -->
         <a class="button button-steam" href="https://steamcommunity.com/id/ne6ative" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/steam.svg" alt="Steam Logo">Steam</a><br>
 
@@ -109,6 +93,9 @@
         <!-- X -->
         <a class="button button-x" href="https://x.com/mugen" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a><br>
 
+        <!-- X -->
+        <a class="button button-x" href="https://x.com/djtrailerpark" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a><br>
+
         <!-- YouTube -->
         <a class="button button-yt" href="https://www.youtube.com/channel/UCnT55kqPamzf_TuPqbwctdA" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/youtube.svg" alt="YouTube Logo">YouTube</a><br>        
 
@@ -117,33 +104,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Visitor Counter Script -->
-  <script>
-    const binId = '698405bdae596e708f123d58';
-    const apiKey = '$2a$10$h.d0U9tP9f9lCCNxgON5UOJcCbJzWGhm1m6FB82cPmq7EzYqEeohm';
-
-    fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
-      headers: { 'X-Master-Key': apiKey }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const newCount = data.record.count + 1;
-        document.getElementById('visitor-count').innerText = newCount;
-
-        fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': apiKey
-          },
-          body: JSON.stringify({ count: newCount })
-        });
-      });
-  </script>
-
-</body>
-</html>
 
   <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
