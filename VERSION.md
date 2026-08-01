@@ -1,6 +1,9 @@
 # LittleLink Version History
 
-## Current Version: v3.11.0
+## Current Version: v3.11.1
+
+### 3.11.1 - 08/01/2026
+- Added a branded 404 page in the style of the privacy page with navigation back to the homepage and a privacy link so the project handles missing routes more gracefully.
 
 ### v3.11.0 - 07/28/2026
 - Google icon refresh (2025/2026 redesigns): new buttons for Google, Google Calendar, Google Chat, Google Docs, Google Forms, Gmail, Google Meet, Google Photos, Google Sheets, and Google Slides; updated the Google Drive icon. Added a dedicated `.button-yt-music` class for YouTube Music.
